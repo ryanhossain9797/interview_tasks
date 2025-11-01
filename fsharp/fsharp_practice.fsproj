@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="0001.MultiplesOfThreeAndFive.fsx" />
+    <Compile Include="0002.EvenFibonacciNumbers.fsx" />
+    <Compile Include="0003.LargestPrimeFactor.fsx" />
+    <Compile Include="0004.LargestPalindromeProduct.fsx" />
+    <Compile Include="0005.SmallestMultiple.fsx" />
+    <Compile Include="0006.SumSquareDifference.fsx" />
+    <Compile Include="0007.10001stPrime.fsx" />
+    <Compile Include="0008.LargestProductInASeries.fsx" />
+    <Compile Include="0010.SummationOfPrimes.fsx" />
+    <Compile Include="0009.SpecialPythagoreanTriplet.fsx" />
+    <Compile Include="0011.LargestProductInAGrid.fsx" />
+    <Compile Include="main.fs" />
+  </ItemGroup>
+</Project>

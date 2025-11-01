@@ -1,0 +1,42 @@
+@page
+@model TicketsModel
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<h2>Tickets</h2>
+
+@if (Model.Tickets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!Model.Tickets.Any())
+{
+    <p>No tickets found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>User ID</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var ticket in Model.Tickets)
+        {
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.Title</td>
+                <td>@ticket.Status</td>
+                <td>@ticket.CreatedAt.ToShortDateString()</td>
+                <td>@ticket.UserId</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

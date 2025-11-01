@@ -1,0 +1,70 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+# Rider
+.idea/
+*.sln.iml
+
+# Build Results
+[Dd]ebug/
+[Rr]elease/
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUNIT
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# DotCover
+*.dotCover
+
+# Logs
+*.log
+
+# OS generated files
+[Tt]humbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.DS_Store
+
+# Docker
+**/docker-compose.*.yml
+**/Dockerfile*
+
+# Others
+*.dbmdl
+*.bak
+*.sql
+*.pdb
+*.cache
+*.config
+*.ide
+*.sdf
+*.vssscc
+*.vspscc
+*.vsscc
+*.tmp
+*.vssscc
+*.vspscc
+*.vsscc
+*.tmp
+*.vscode/
+.fake

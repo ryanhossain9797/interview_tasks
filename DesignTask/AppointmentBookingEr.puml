@@ -1,0 +1,124 @@
+@startuml Appointment Booking System ER Diagram
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+!define foreign_key(x) <i>x</i>
+
+title Appointment Booking System - Entity Relationship Diagram
+
+table(Clinic) {
+  primary_key(Id) : INT
+  ActiveClinicId : INT
+  Name : VARCHAR(255)
+  Address : TEXT
+  Phone : VARCHAR(20)
+  Email : VARCHAR(255)
+  IsActive : BOOLEAN
+}
+
+table(Doctor) {
+  primary_key(Id) : INT
+  foreign_key(ActiveClinicId) : INT
+  Name : VARCHAR(255)
+  Email : VARCHAR(255)
+  Phone : VARCHAR(20)
+  HashedPass: VARCHAR(100)
+  Salt: VARCHAR(100)
+  Specialization : VARCHAR(100)
+}
+
+table(TimeSlot) {
+  primary_key(Id) : INT
+  foreign_key(ActiveClinicId) : INT
+  StartTime : TIMESTAMP
+  Duration : INT
+
+  UNIQUEINDEX : (ActiveClinicId, StartTime)
+  INDEX: StartTime
+}
+
+table(DoctorSlotTemplate) {
+  primary_key(Id) : INT
+  foreign_key(DoctorId) : INT
+  foreign_key(ActiveClinicId) : INT
+  foreign_key(TimeSlotId) : INT
+  IsEnabled : BOOLEAN
+
+  UNIQUEINDEX : (DoctorId, TimeSlotId)
+  INDEX: (ActiveClinicId)
+  INDEX: (Other fields like specialization)
+}
+
+table(DoctorBookingSlot) {
+  primary_key(Id) : INT
+  foreign_key(DoctorSlotTemplateId) : INT
+  foreign_key(BookedByCustomerId) : INT NULL
+  Date : DATETIME
+
+  UNIQUEINDEX : (DoctorSlotTemplateId, Date)
+}
+
+table(Customer) {
+  primary_key(Id) : INT
+  Name : VARCHAR(255)
+  Email : VARCHAR(255)
+  Phone : VARCHAR(20)
+  HashedPass: VARCHAR(100)
+  Salt: VARCHAR(100)
+}
+' Relationships
+Clinic ||--o{ Doctor : "ActiveClinicId"
+Clinic ||--o{ TimeSlot : "ActiveClinicId"
+
+Doctor ||--o{ DoctorSlotTemplate : "DoctorId, ActiveClinicId"
+TimeSlot ||--o{ DoctorSlotTemplate : "TimeSlotId, ActiveClinicId"
+DoctorSlotTemplate ||--o{ DoctorBookingSlot : "DoctorSlotTemplateId"
+Customer ||--o{ DoctorBookingSlot : "CustomerId, ActiveClinicId"
+
+' Notes
+note right of Clinic
+  ActiveClinicId = Id when active
+  ActiveClinicId = NULL when inactive
+
+  The ActiveEntityId process can be
+  applied to other entities too
+
+  ClinicId is propagated all over the tables to ensure consistency
+
+  So that CustomerA of ClinicX cannot book a DoctorM of ClinicY
+end note
+
+note right of TimeSlot
+  Time slots of Clinic
+  like 1:00pm - 2:00pm
+  (Not guarding against overlap, just start time)
+end note
+
+note right of DoctorSlotTemplate
+  Junction table linking
+  doctors to time slots
+
+  Essentially enabling this time
+  for this doctor
+
+  Would be useful for managing doctor's
+  availability and shifts
+end note
+
+note right of DoctorBookingSlot
+  Materialized slots for each and every date
+  this should be generated for every day
+  a few days in advance based
+  on if the Template is enabled or not
+
+  We want to control availability
+  on a daily basis
+
+  BookedByCustomerId will be set if booked
+
+  Optional UNIQUEINDEX : (BookedByCustomerId, Time)
+  if we want to enforce unique booking by customer.
+  Would need to bring in time.
+end note
+
+@enduml
